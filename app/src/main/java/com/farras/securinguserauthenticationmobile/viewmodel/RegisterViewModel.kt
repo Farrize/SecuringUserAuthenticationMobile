@@ -8,23 +8,23 @@ import at.favre.lib.crypto.bcrypt.BCrypt
 import com.farras.securinguserauthenticationmobile.util.AuthState
 import kotlinx.coroutines.launch
 
-class LoginViewModel : ViewModel() {
+class RegisterViewModel : ViewModel() {
     private val _authState = mutableStateOf<AuthState>(AuthState.Idle)
     val authState: State<AuthState> = _authState
 
-    fun login(username: String, password: String) {
+    fun register(username: String, password: String) {
         viewModelScope.launch {
             _authState.value = AuthState.Loading
 
             // Enkripsi password dengan library BCrypt
             val encryptedPassword = BCrypt.withDefaults().hashToString(20, password.toCharArray())
 
-            /* Melakukan proses login
-            val result = repository.login(username, password)
+            /* Melakukan proses register
+            val result = repository.register(username, password)
             if (result is Result.Success) {
                 _authState.value = AuthState.Success(result.data)
             } else {
-                _authState.value = AuthState.Error("Login failed")
+                _authState.value = AuthState.Error("Register failed")
             }
             */
             _authState.value = AuthState.Error("Not Implemented")

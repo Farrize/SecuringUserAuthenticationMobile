@@ -11,30 +11,35 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.farras.securinguserauthenticationmobile.util.AuthState
-import com.farras.securinguserauthenticationmobile.viewmodel.LoginViewModel
+import com.farras.securinguserauthenticationmobile.viewmodel.RegisterViewModel
+import kotlinx.coroutines.launch
 
 @Composable
-fun LoginScreen(
-    viewModel: LoginViewModel,
+fun RegisterScreen(
+    viewModel: RegisterViewModel,
     scaffoldState: ScaffoldState,
-    onLoginSuccess: () -> Unit
+    onRegisterSuccess: () -> Unit
 ) {
     var username by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
-    val loginState by remember { viewModel.authState }
+    var confirmPassword by remember { mutableStateOf("") }
 
-    when (loginState) {
+    val coroutineScope = rememberCoroutineScope()
+    val registerState by remember { viewModel.authState }
+
+    when (registerState) {
         is AuthState.Success -> {
-            onLoginSuccess()
+            onRegisterSuccess()
         }
         is AuthState.Error -> {
             LaunchedEffect(key1 = true) {
-                scaffoldState.snackbarHostState.showSnackbar(
-                    message = (loginState as AuthState.Error).message
-                )
+                coroutineScope.launch {
+                    scaffoldState.snackbarHostState.showSnackbar(
+                        message = (registerState as AuthState.Error).message
+                    )
+                }
             }
         }
         is AuthState.Loading -> {
@@ -65,25 +70,43 @@ fun LoginScreen(
         OutlinedTextField(
             value = password,
             onValueChange = { password = it },
-            label = { Text("Password") },
-            visualTransformation = PasswordVisualTransformation(),
             keyboardOptions = KeyboardOptions.Default.copy(
                 imeAction = ImeAction.Done,
                 keyboardType = KeyboardType.Password
             ),
+            visualTransformation = PasswordVisualTransformation(),
+            label = { Text("Password") },
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(vertical = 8.dp)
+        )
+        OutlinedTextField(
+            value = confirmPassword,
+            onValueChange = { confirmPassword = it },
+            keyboardOptions = KeyboardOptions.Default.copy(
+                imeAction = ImeAction.Done,
+                keyboardType = KeyboardType.Password
+            ),
+            visualTransformation = PasswordVisualTransformation(),
+            label = { Text("Confirm Password") },
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(vertical = 8.dp)
         )
         Button(
             onClick = {
-                viewModel.login(username, password)
+                if (password != confirmPassword) {
+                    coroutineScope.launch {
+                        scaffoldState.snackbarHostState.showSnackbar("Password and Confirm Password must be same")
+                    }
+                }
+                viewModel.register(username, password)
             },
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(vertical = 8.dp)
         ) {
-            Text("Login")
+            Text(text = "Register")
         }
     }
 }
