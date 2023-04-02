@@ -6,6 +6,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import at.favre.lib.crypto.bcrypt.BCrypt
 import com.farras.securinguserauthenticationmobile.util.LoginState
 import kotlinx.coroutines.launch
 
@@ -16,6 +17,10 @@ class LoginViewModel : ViewModel() {
     fun login(username: String, password: String) {
         viewModelScope.launch {
             _loginState.value = LoginState.Loading
+
+            // Enkripsi password dengan library BCrypt
+            val encryptedPassword = BCrypt.withDefaults().hashToString(20, password.toCharArray())
+
             /* Melakukan proses login
             val result = repository.login(username, password)
             if (result is Result.Success) {
