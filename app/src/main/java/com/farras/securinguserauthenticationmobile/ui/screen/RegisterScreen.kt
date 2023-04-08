@@ -25,6 +25,7 @@ fun RegisterScreen(
     var username by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
     var confirmPassword by remember { mutableStateOf("") }
+    var telephone by remember { mutableStateOf("") }
 
     val coroutineScope = rememberCoroutineScope()
     val registerState by remember { viewModel.authState }
@@ -93,6 +94,18 @@ fun RegisterScreen(
                 .fillMaxWidth()
                 .padding(vertical = 8.dp)
         )
+        OutlinedTextField(
+            value = telephone,
+            onValueChange = { telephone = it },
+            keyboardOptions = KeyboardOptions.Default.copy(
+                imeAction = ImeAction.Done,
+                keyboardType = KeyboardType.Phone
+            ),
+            label = { Text("Telephone") },
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(vertical = 8.dp)
+        )
         Button(
             onClick = {
                 if (password != confirmPassword) {
@@ -100,7 +113,7 @@ fun RegisterScreen(
                         scaffoldState.snackbarHostState.showSnackbar("Password and Confirm Password must be same")
                     }
                 }
-                viewModel.register(username, password)
+                viewModel.register(username, password, telephone)
             },
             modifier = Modifier
                 .fillMaxWidth()
