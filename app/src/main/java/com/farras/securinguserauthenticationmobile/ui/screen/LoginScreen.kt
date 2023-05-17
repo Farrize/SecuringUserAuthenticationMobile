@@ -1,12 +1,11 @@
 package com.farras.securinguserauthenticationmobile.ui.screen
 
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.text.ClickableText
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
 import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
@@ -20,7 +19,8 @@ import com.farras.securinguserauthenticationmobile.viewmodel.LoginViewModel
 fun LoginScreen(
     viewModel: LoginViewModel,
     scaffoldState: ScaffoldState,
-    onLoginSuccess: () -> Unit
+    onLoginSuccess: () -> Unit,
+    onClickRegister: () -> Unit
 ) {
     var username by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
@@ -48,7 +48,9 @@ fun LoginScreen(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(horizontal = 16.dp)
+            .padding(horizontal = 16.dp),
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
         OutlinedTextField(
             value = username,
@@ -84,6 +86,9 @@ fun LoginScreen(
                 .padding(vertical = 8.dp)
         ) {
             Text("Login")
+        }
+        TextButton(onClick = onClickRegister) {
+            Text("Register")
         }
     }
 }

@@ -1,12 +1,10 @@
 package com.farras.securinguserauthenticationmobile.ui.screen
 
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
 import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
@@ -20,7 +18,8 @@ import kotlinx.coroutines.launch
 fun RegisterScreen(
     viewModel: RegisterViewModel,
     scaffoldState: ScaffoldState,
-    onRegisterSuccess: () -> Unit
+    onRegisterSuccess: () -> Unit,
+    onClickLogin: () -> Unit
 ) {
     var username by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
@@ -54,7 +53,9 @@ fun RegisterScreen(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(horizontal = 16.dp)
+            .padding(horizontal = 16.dp),
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
         OutlinedTextField(
             value = username,
@@ -120,6 +121,9 @@ fun RegisterScreen(
                 .padding(vertical = 8.dp)
         ) {
             Text(text = "Register")
+        }
+        TextButton(onClick = onClickLogin) {
+            Text("Login")
         }
     }
 }

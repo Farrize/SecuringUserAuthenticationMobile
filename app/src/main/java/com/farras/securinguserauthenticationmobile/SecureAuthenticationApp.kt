@@ -36,6 +36,9 @@ fun SecureAuthenticationApp() {
                     scaffoldState = scaffoldState,
                     onLoginSuccess = {
                         navController.navigate("home")
+                    },
+                    onClickRegister = {
+                        navController.navigate("register")
                     }
                 )
             }
@@ -45,6 +48,9 @@ fun SecureAuthenticationApp() {
                     scaffoldState = scaffoldState,
                     onRegisterSuccess = {
                         navController.navigate("home")
+                    },
+                    onClickLogin = {
+                        navController.navigate("login")
                     }
                 )
             }
