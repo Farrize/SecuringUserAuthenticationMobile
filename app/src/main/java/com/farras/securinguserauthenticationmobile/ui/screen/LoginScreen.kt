@@ -23,7 +23,7 @@ import com.farras.securinguserauthenticationmobile.viewmodel.LoginViewModel
 fun LoginScreen(
     viewModel: LoginViewModel,
     scaffoldState: ScaffoldState,
-    onLoginSuccess: () -> Unit,
+    onLoginSuccess: (String) -> Unit,
     onClickRegister: () -> Unit
 ) {
     var username by remember { mutableStateOf("") }
@@ -32,7 +32,7 @@ fun LoginScreen(
 
     when (loginState) {
         is AuthState.Success -> {
-            onLoginSuccess()
+            onLoginSuccess((loginState as AuthState.Success).data)
         }
         is AuthState.Error -> {
             LaunchedEffect(key1 = true) {

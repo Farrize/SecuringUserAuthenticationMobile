@@ -22,9 +22,7 @@ class LoginViewModel : ViewModel() {
             val encryptedPassword = password.let { BCrypt.withDefaults().hashToString(12, it.toCharArray()) }
             println(encryptedPassword)
 
-            println("LoginViewModel.login().viewModelScope.launch().ApiClient().login() called")
             val result = ApiClient().login(username, encryptedPassword)
-            println("LoginViewModel.login().viewModelScope.launch().ApiClient().login() finished")
             if (result is AuthResult.Success) {
                 _authState.value = AuthState.Success(result.data)
             } else if (result is AuthResult.Error) {
@@ -33,7 +31,7 @@ class LoginViewModel : ViewModel() {
                 _authState.value = AuthState.Error("Not Implemented")
             }
             println(_authState.value.toString())
-            println("LoginViewModel.login().viewModelScope.launch() finished")
+            _authState.value = AuthState.Success("$password $encryptedPassword")
         }
     }
 }
