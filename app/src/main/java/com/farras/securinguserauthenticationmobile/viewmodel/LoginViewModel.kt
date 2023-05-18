@@ -19,15 +19,21 @@ class LoginViewModel : ViewModel() {
             _authState.value = AuthState.Loading
 
             // Enkripsi password dengan library BCrypt
-            val encryptedPassword = BCrypt.withDefaults().hashToString(20, password.toCharArray())
+            val encryptedPassword = password.let { BCrypt.withDefaults().hashToString(12, it.toCharArray()) }
+            println(encryptedPassword)
 
+            println("LoginViewModel.login().viewModelScope.launch().ApiClient().login() called")
             val result = ApiClient().login(username, encryptedPassword)
+            println("LoginViewModel.login().viewModelScope.launch().ApiClient().login() finished")
             if (result is AuthResult.Success) {
                 _authState.value = AuthState.Success(result.data)
             } else if (result is AuthResult.Error) {
                 _authState.value = AuthState.Error(result.message ?: "Unknown Error")
+            } else {
+                _authState.value = AuthState.Error("Not Implemented")
             }
-            _authState.value = AuthState.Error("Not Implemented")
+            println(_authState.value.toString())
+            println("LoginViewModel.login().viewModelScope.launch() finished")
         }
     }
 }

@@ -6,12 +6,14 @@ import com.farras.securinguserauthenticationmobile.auth.response.AuthResponse
 import com.farras.securinguserauthenticationmobile.util.ApiConfig
 import com.farras.securinguserauthenticationmobile.util.AuthResult
 import retrofit2.Retrofit
+import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 
 class ApiClient {
     private val authService: AuthService = Retrofit.Builder()
         .baseUrl(ApiConfig.BASE_URL)
         .addConverterFactory(GsonConverterFactory.create())
+        .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
         .build()
         .create(AuthService::class.java)
 
