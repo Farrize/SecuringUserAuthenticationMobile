@@ -34,8 +34,11 @@ fun SecureAuthenticationApp() {
                 LoginScreen(
                     viewModel = loginViewModel,
                     scaffoldState = scaffoldState,
-                    onLoginSuccess = {
-                        navController.navigate("home")
+                    onLoginSuccess = { data ->
+                        navController.navigate("home/$data")
+                    },
+                    onClickRegister = {
+                        navController.navigate("register")
                     }
                 )
             }
@@ -45,11 +48,17 @@ fun SecureAuthenticationApp() {
                     scaffoldState = scaffoldState,
                     onRegisterSuccess = {
                         navController.navigate("home")
+                    },
+                    onClickLogin = {
+                        navController.navigate("login")
                     }
                 )
             }
             composable("home") {
                 Text(text = "Home") // Home Screen Not Implemented Yet
+            }
+            composable("home/{passwords}") { backStackEntry ->
+                backStackEntry.arguments?.getString("passwords")?.let { Text(text = it) } // Home Screen Not Implemented Yet
             }
         }
     }
