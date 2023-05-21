@@ -53,7 +53,6 @@ fun LoginScreen(
         modifier = Modifier
             .fillMaxSize()
     ) {
-        SemiCircularBackground()
         Column(
             modifier = Modifier
                 .fillMaxSize()
