@@ -1,11 +1,16 @@
 package com.farras.securinguserauthenticationmobile
 
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
@@ -46,8 +51,8 @@ fun SecureAuthenticationApp() {
                 RegisterScreen(
                     viewModel = registerViewModel,
                     scaffoldState = scaffoldState,
-                    onRegisterSuccess = {
-                        navController.navigate("home")
+                    onRegisterSuccess = { data ->
+                        navController.navigate("home/$data")
                     },
                     onClickLogin = {
                         navController.navigate("login")
@@ -58,7 +63,17 @@ fun SecureAuthenticationApp() {
                 Text(text = "Home") // Home Screen Not Implemented Yet
             }
             composable("home/{passwords}") { backStackEntry ->
-                backStackEntry.arguments?.getString("passwords")?.let { Text(text = it) } // Home Screen Not Implemented Yet
+                val passwords = backStackEntry.arguments?.getString("passwords")!!
+                Column(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(horizontal = 16.dp),
+                    verticalArrangement = Arrangement.Center,
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    Text(text = "Home")
+                    Text(text = passwords)
+                }
             }
         }
     }

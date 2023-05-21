@@ -18,7 +18,7 @@ import kotlinx.coroutines.launch
 fun RegisterScreen(
     viewModel: RegisterViewModel,
     scaffoldState: ScaffoldState,
-    onRegisterSuccess: () -> Unit,
+    onRegisterSuccess: (String) -> Unit,
     onClickLogin: () -> Unit
 ) {
     var username by remember { mutableStateOf("") }
@@ -31,7 +31,7 @@ fun RegisterScreen(
 
     when (registerState) {
         is AuthState.Success -> {
-            onRegisterSuccess()
+            onRegisterSuccess((registerState as AuthState.Success).data)
         }
         is AuthState.Error -> {
             LaunchedEffect(key1 = true) {
