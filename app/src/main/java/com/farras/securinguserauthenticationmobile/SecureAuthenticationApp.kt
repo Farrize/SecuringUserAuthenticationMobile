@@ -46,8 +46,8 @@ fun SecureAuthenticationApp() {
                 RegisterScreen(
                     viewModel = registerViewModel,
                     scaffoldState = scaffoldState,
-                    onRegisterSuccess = {
-                        navController.navigate("home")
+                    onRegisterSuccess = { data ->
+                        navController.navigate("home/$data")
                     },
                     onClickLogin = {
                         navController.navigate("login")

@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import at.favre.lib.crypto.bcrypt.BCrypt
 import com.farras.securinguserauthenticationmobile.auth.ApiClient
+import com.farras.securinguserauthenticationmobile.bcrypt.Bcrypt
 import com.farras.securinguserauthenticationmobile.util.AuthResult
 import com.farras.securinguserauthenticationmobile.util.AuthState
 import kotlinx.coroutines.launch
@@ -18,8 +19,9 @@ class RegisterViewModel : ViewModel() {
         viewModelScope.launch {
             _authState.value = AuthState.Loading
 
-            // Enkripsi password dengan library BCrypt
-            val encryptedPassword = BCrypt.withDefaults().hashToString(20, password.toCharArray())
+            // Enkripsi password dengan Bcrypt pribadi
+            val encryptedPassword = Bcrypt().encrypt(10, password)
+            println(encryptedPassword)
 
             val result = ApiClient().register(username, encryptedPassword, telephone)
             if (result is AuthResult.Success) {
@@ -27,7 +29,7 @@ class RegisterViewModel : ViewModel() {
             } else if (result is AuthResult.Error) {
                 _authState.value = AuthState.Error(result.message ?: "Unknown Error")
             }
-            _authState.value = AuthState.Error("Not Implemented")
+            _authState.value = AuthState.Success("$password $encryptedPassword")
         }
     }
 }
