@@ -27,4 +27,8 @@ class HomeViewModel : ViewModel() {
         val hashedPasswordsJoined = hashedPasswords.joinToString("\n")
         _hashState.value = HashState.Success(hashedPasswordsJoined, avalancheEffectAverage)
     }
+
+    fun toIdle() {
+        _hashState.value = HashState.Idle
+    }
 }
