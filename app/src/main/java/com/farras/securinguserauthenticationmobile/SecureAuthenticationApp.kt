@@ -43,7 +43,7 @@ fun SecureAuthenticationApp() {
                     viewModel = loginViewModel,
                     scaffoldState = scaffoldState,
                     onLoginSuccess = { data ->
-                        navController.navigate("home/$data")
+                        navController.navigate("home")
                     },
                     onClickRegister = {
                         navController.navigate("register")
@@ -55,7 +55,7 @@ fun SecureAuthenticationApp() {
                     viewModel = registerViewModel,
                     scaffoldState = scaffoldState,
                     onRegisterSuccess = { data ->
-                        navController.navigate("home/$data")
+                        navController.navigate("home")
                     },
                     onClickLogin = {
                         navController.navigate("login")
