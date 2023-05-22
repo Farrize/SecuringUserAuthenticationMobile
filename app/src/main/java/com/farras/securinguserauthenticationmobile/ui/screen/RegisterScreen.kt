@@ -113,8 +113,10 @@ fun RegisterScreen(
                     coroutineScope.launch {
                         scaffoldState.snackbarHostState.showSnackbar("Password and Confirm Password must be same")
                     }
+                } else {
+                    // viewModel.register(username, password, telephone)
+                    onRegisterSuccess("Register Success")
                 }
-                viewModel.register(username, password, telephone)
             },
             modifier = Modifier
                 .fillMaxWidth()

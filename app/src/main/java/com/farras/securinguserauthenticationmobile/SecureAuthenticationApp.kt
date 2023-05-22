@@ -14,8 +14,10 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.farras.securinguserauthenticationmobile.ui.screen.HomeScreen
 import com.farras.securinguserauthenticationmobile.ui.screen.LoginScreen
 import com.farras.securinguserauthenticationmobile.ui.screen.RegisterScreen
+import com.farras.securinguserauthenticationmobile.viewmodel.HomeViewModel
 import com.farras.securinguserauthenticationmobile.viewmodel.LoginViewModel
 import com.farras.securinguserauthenticationmobile.viewmodel.RegisterViewModel
 
@@ -24,6 +26,7 @@ fun SecureAuthenticationApp() {
     val navController = rememberNavController()
     val loginViewModel by lazy { LoginViewModel() }
     val registerViewModel by lazy { RegisterViewModel() }
+    val homeViewModel by lazy { HomeViewModel() }
     val scaffoldState = rememberScaffoldState()
 
     Scaffold(
@@ -40,7 +43,7 @@ fun SecureAuthenticationApp() {
                     viewModel = loginViewModel,
                     scaffoldState = scaffoldState,
                     onLoginSuccess = { data ->
-                        navController.navigate("home/$data")
+                        navController.navigate("home")
                     },
                     onClickRegister = {
                         navController.navigate("register")
@@ -52,7 +55,7 @@ fun SecureAuthenticationApp() {
                     viewModel = registerViewModel,
                     scaffoldState = scaffoldState,
                     onRegisterSuccess = { data ->
-                        navController.navigate("home/$data")
+                        navController.navigate("home")
                     },
                     onClickLogin = {
                         navController.navigate("login")
@@ -60,7 +63,13 @@ fun SecureAuthenticationApp() {
                 )
             }
             composable("home") {
-                Text(text = "Home") // Home Screen Not Implemented Yet
+                HomeScreen(
+                    viewModel = homeViewModel,
+                    scaffoldState = scaffoldState,
+                    onHashButtonClicked = {
+
+                    }
+                )
             }
             composable("home/{passwords}") { backStackEntry ->
                 val passwords = backStackEntry.arguments?.getString("passwords")!!
