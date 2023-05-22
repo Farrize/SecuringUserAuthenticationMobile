@@ -24,6 +24,7 @@ class HomeViewModel : ViewModel() {
         }
         val avalancheEffectAverage = avalancheEffects.average()
 
-        _hashState.value = HashState.Success(hashedPasswords, avalancheEffectAverage)
+        val hashedPasswordsJoined = hashedPasswords.joinToString("\n")
+        _hashState.value = HashState.Success(hashedPasswordsJoined, avalancheEffectAverage)
     }
 }
