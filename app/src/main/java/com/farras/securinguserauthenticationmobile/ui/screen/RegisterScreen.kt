@@ -114,7 +114,8 @@ fun RegisterScreen(
                         scaffoldState.snackbarHostState.showSnackbar("Password and Confirm Password must be same")
                     }
                 } else {
-                    viewModel.register(username, password, telephone)
+                    // viewModel.register(username, password, telephone)
+                    onRegisterSuccess("Register Success")
                 }
             },
             modifier = Modifier
