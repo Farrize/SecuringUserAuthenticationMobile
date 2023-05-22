@@ -51,21 +51,29 @@ class Bcrypt {
         // Create salt for hashing with Secure Random
         val salt = ByteArray(16)
         secureRandom.nextBytes(salt)
+
         return format(cost, salt, hash(cost, salt, password))
     }
 
     fun hash(cost: Int, salt: ByteArray, password: String): ByteArray {
+        val passwordBytes = password.toByteArray(charset)
         try {
             // Hashing the password with BCrypt
-            val eksBlowfish : ByteArray? = EksBlowfish().eksBlowfish(cost, salt, password.toByteArray(charset))
+            val eksBlowfish : ByteArray? = EksBlowfish().eksBlowfish(cost, salt, passwordBytes)
             return eksBlowfish!!
         } catch (e: Exception) {
             throw RuntimeException(e)
+        } finally {
+            Bytes.wrap(passwordBytes).mutable().secureWipe()
         }
     }
 
     fun format(cost: Int, salt: ByteArray, hash: ByteArray): String {
-        return "$2a$${cost}$${Bytes.wrap(salt).encodeBase64()}$${Bytes.wrap(hash).encodeBase64()}"
+        val results = "$2a$${cost}$${Bytes.wrap(salt).encodeBase64()}$${Bytes.wrap(hash).encodeBase64()}"
+        // Clearing the salt and hash byte array
+        Bytes.wrap(salt).mutable().secureWipe()
+        Bytes.wrap(hash).mutable().secureWipe()
+        return results
     }
 
     fun bitDifference(a: String, b: String): Float {
@@ -80,9 +88,10 @@ class Bcrypt {
                 }
             }
         }
-        var totalbit = aByte.size * 8
-        println("Total bit: $totalbit")
-        println("Bit difference: $bitDifference")
-        return (1f - (bitDifference.toFloat() / (aByte.size * 8))) * 100
+        val totalbit = aByte.size * 8
+        // Clearing the password byte array
+        Bytes.wrap(aByte).mutable().secureWipe()
+        Bytes.wrap(bByte).mutable().secureWipe()
+        return (1f - (bitDifference.toFloat() / (totalbit))) * 100
     }
 }
