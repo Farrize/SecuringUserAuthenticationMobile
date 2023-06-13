@@ -20,7 +20,7 @@ class RegisterViewModel : ViewModel() {
             _authState.value = AuthState.Loading
 
             // Enkripsi password dengan Bcrypt pribadi
-            val encryptedPassword = Bcrypt().encrypt(10, password)
+            val encryptedPassword = BCrypt.withDefaults().hashToString(10, password.toCharArray())
             println(encryptedPassword)
 
             val result = ApiClient().register(username, encryptedPassword, telephone)
